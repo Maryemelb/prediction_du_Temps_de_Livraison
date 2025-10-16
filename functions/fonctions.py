@@ -166,7 +166,7 @@ def gridsearch_metrics(pipline_param, gridparam ):
     print("MAE:", mean_absolute_error(y_test, y_pred_rf))
     r2=r2_score(y_test, y_pred_rf)
     print("R2_score:", r2_score(y_test, y_pred_rf))
-    return  f'MAE:{mae} \n R2_score: {r2}'
+    return  f'MAE:{mae} \n R2_score: {r2}',mae
 #
 
 # grid_search_cv=GridSearchCV(pipeline, grid, cv=5,n_jobs=-1, scoring='r2')
@@ -190,10 +190,18 @@ grid_svr = {
     'svr__gamma': ['scale', 'auto'],
     'svr__epsilon': [0.1]
 }
-print("Random forest regression metrics :")
-gridsearch_metrics(pipeline, grid)
-print("SVR metrics :")
-gridsearch_metrics(pipeline_svr, grid_svr)
+# print("Random forest regression metrics :")
+# gridsearch_metrics(pipeline, grid)
+# print("SVR metrics :")
+# gridsearch_metrics(pipeline_svr, grid_svr)
+def display_metrics():
+   print("Random forest regression metrics :")
+   txt,mae_rf= gridsearch_metrics(pipeline, grid)
+   print("SVR metrics :")
+   txt2,mae_svr= gridsearch_metrics(pipeline_svr, grid_svr)
+
+   return mae_rf, mae_svr
+display_metrics()
 
 # grid_search_cv=GridSearchCV(pipeline_svr, grid_svr, cv=5,n_jobs=-1,scoring='r2')
 # grid_search_cv.fit(X_train, y_train)
