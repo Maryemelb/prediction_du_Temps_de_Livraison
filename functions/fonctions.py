@@ -122,7 +122,7 @@ def normalisation(prepared_data):
 #A pipeline allows us to assemble several steps that can be cross-validated 
 # together while setting different parameters. This ensures that all steps are performed sequentially 
 # and that the transformations are applied only to the training data within each cross-validation fold.
-data = pd.read_csv("C:\\Users\\hp\\Documents\\projects\\simplon_projects\\prediction_du_Temps_de_Livraison\\data\\\\dataset.csv")
+data = pd.read_csv(data_path)
 prepared_data= prepare_data(data)
 encoded_data= encode_data(prepared_data)
 splited_data=split_data(encoded_data)
