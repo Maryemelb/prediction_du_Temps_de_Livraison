@@ -8,6 +8,8 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.feature_selection import SelectKBest, f_regression
 from sklearn.model_selection import GridSearchCV
 import pandas as pd
+import sys
+import os
 def prepare_data(data):
      data_columns= data.columns
      for i in data_columns:
@@ -74,8 +76,15 @@ grid_search_svr = GridSearchCV(
     n_jobs=-1# Use all CPU cores
 
 )
+# Get the current file’s directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-data = pd.read_csv("C:\\Users\\hp\\Documents\\projects\\simplon_projects\\prediction_du_Temps_de_Livraison\\data\\\\dataset.csv")
+# Build the relative path to your dataset
+data_path = os.path.join(BASE_DIR, "..", "data", "dataset.csv")
+
+# Load dataset
+data = pd.read_csv(data_path)
+# data = pd.read_csv("C:\\Users\\hp\\Documents\\projects\\simplon_projects\\prediction_du_Temps_de_Livraison\\data\\\\dataset.csv")
 prepared_data1= prepare_data(data)
 encoded_data1=encode_data(prepared_data1)
 def get_metrics(encoded_data, gridsearch): 
