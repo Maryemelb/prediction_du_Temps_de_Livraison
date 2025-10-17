@@ -72,8 +72,7 @@ grid_search_svr = GridSearchCV(
     cv=5,
     verbose=2,
     n_jobs=-1# Use all CPU cores
-    # K-Fold Cross Validation with 5 folds
-     # use all CPU cores
+
 )
 
 data = pd.read_csv("C:\\Users\\hp\\Documents\\projects\\simplon_projects\\prediction_du_Temps_de_Livraison\\data\\\\dataset.csv")
@@ -116,7 +115,6 @@ def normalisation(prepared_data):
 # and that the transformations are applied only to the training data within each cross-validation fold.
 data = pd.read_csv("C:\\Users\\hp\\Documents\\projects\\simplon_projects\\prediction_du_Temps_de_Livraison\\data\\\\dataset.csv")
 prepared_data= prepare_data(data)
-
 encoded_data= encode_data(prepared_data)
 splited_data=split_data(encoded_data)
 print(select_k_best(splited_data))
@@ -124,6 +122,7 @@ print(select_k_best(splited_data))
 #1. ColumnTransformer
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
+
 def data_preprocessing():
       prepared_data= prepare_data(data)
       X= prepared_data.drop(columns=['Delivery_Time_min','Order_ID'])
@@ -168,14 +167,6 @@ def gridsearch_metrics(pipline_param, gridparam ):
     print("R2_score:", r2_score(y_test, y_pred_rf))
     return  f'MAE:{mae} \n R2_score: {r2}',mae
 #
-
-# grid_search_cv=GridSearchCV(pipeline, grid, cv=5,n_jobs=-1, scoring='r2')
-# grid_search_cv.fit(X_train, y_train)
-# y_pred_rf= grid_search_cv.predict(X_test)
-# print("Random forest regression metrics")
-# print("MAE:", mean_absolute_error(y_test, y_pred_rf))
-# print("R2_score:", r2_score(y_test, y_pred_rf))
-
 #4.define the pipeline of SVR
 pipeline_svr= Pipeline([
    ('preprocessor', preprocessor),
@@ -199,16 +190,9 @@ def display_metrics():
    txt,mae_rf= gridsearch_metrics(pipeline, grid)
    print("SVR metrics :")
    txt2,mae_svr= gridsearch_metrics(pipeline_svr, grid_svr)
-
    return mae_rf, mae_svr
 display_metrics()
 
-# grid_search_cv=GridSearchCV(pipeline_svr, grid_svr, cv=5,n_jobs=-1,scoring='r2')
-# grid_search_cv.fit(X_train, y_train)
-# y_pred_svr= grid_search_cv.predict(X_test)
-# print('SVR metrics:')
-# print("MAE : ", mean_absolute_error(y_test, y_pred_svr))
-# print("R2_score: ", r2_score(y_test, y_pred_svr))
 
 # # # #use GridSearchCV to perform hyperparameter tuning on the entire pipeline
 # # # # rf_cv = GridSearchCV(estimator=RandomForestRegressor(), param_grid=grid, cv= 5)
