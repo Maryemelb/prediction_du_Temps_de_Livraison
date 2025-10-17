@@ -84,7 +84,6 @@ data_path = os.path.join(BASE_DIR, "..", "data", "dataset.csv")
 
 # Load dataset
 data = pd.read_csv(data_path)
-# data = pd.read_csv("C:\\Users\\hp\\Documents\\projects\\simplon_projects\\prediction_du_Temps_de_Livraison\\data\\\\dataset.csv")
 prepared_data1= prepare_data(data)
 encoded_data1=encode_data(prepared_data1)
 def get_metrics(encoded_data, gridsearch): 
