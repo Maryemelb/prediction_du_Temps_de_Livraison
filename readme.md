@@ -147,7 +147,12 @@ Le workflow `.github/workflows/python-tests.yml` :
 | RandomForestRegressor | 7.608370238095238|  0.7469384552378573|
 | SVR | 6.058334766827715 | 0.8149002107491989 |
 
-**Modèle retenu** : [À justifier après expérimentation]
+**Modèle retenu** : 
+ -Le SVR (Support Vector Regressor) est le meilleur choix dans ce cas car :
+
+ -Il a une erreur moyenne plus faible (MAE)
+
+ -Il explique mieux la variance des données (R² plus élevé)
 
 ## 🛠️ Technologies
 
