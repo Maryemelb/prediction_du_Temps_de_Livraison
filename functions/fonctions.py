@@ -10,6 +10,11 @@ from sklearn.model_selection import GridSearchCV
 import pandas as pd
 import sys
 import os
+# Get the current file’s directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Build the relative path to your dataset
+data_path = os.path.join(BASE_DIR, "..", "data", "dataset.csv")
 def prepare_data(data):
      data_columns= data.columns
      for i in data_columns:
@@ -21,7 +26,6 @@ def prepare_data(data):
      return prepared_data
 def encode_data(data):
     columns = ['Weather', 'Traffic_Level', 'Time_of_Day', 'Vehicle_Type']
-    # Create encoder with dense output
     encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
     for col in columns:
         # Convert column to 2D and handle NaN
@@ -32,7 +36,7 @@ def encode_data(data):
             columns=encoder.get_feature_names_out([col]),
             index=data.index
         ) 
-        # Drop original column and add encoded columns
+        # delete original column and add encoded columns
         data = pd.concat([data.drop(columns=[col]), transformed_df], axis=1)
     return data
 
@@ -45,7 +49,6 @@ def split_data(prepared_data):
 
 def select_k_best(splited_data):
    #f_regression Computes the correlation between each feature and the target.
-
    X_train, X_test, y_train, y_test,X,y= splited_data
    selector= SelectKBest(score_func=f_regression, k=5)
    selector.fit(X_train, y_train)
@@ -76,11 +79,7 @@ grid_search_svr = GridSearchCV(
     n_jobs=-1# Use all CPU cores
 
 )
-# Get the current file’s directory
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Build the relative path to your dataset
-data_path = os.path.join(BASE_DIR, "..", "data", "dataset.csv")
 
 # Load dataset
 data = pd.read_csv(data_path)
@@ -106,7 +105,7 @@ def get_metrics(encoded_data, gridsearch):
   best_params=gridsearch.best_params_
   return MAE, R2_score,best_score,best_estimator,best_params
 
-print("Random forest metrics")
+# print("Random forest metrics")
 # print(get_metrics(encoded_data1,grid_search_random))
 # print("SVR metrics",get_metrics(encoded_data1,grid_search_svr))
 
@@ -139,8 +138,8 @@ def data_preprocessing():
          X, y, test_size=0.33, random_state=42)
       return X_train, X_test, y_train, y_test,X,y
 
-X = prepared_data.drop(columns=['Delivery_Time_min'])  # features only
-y = prepared_data['Delivery_Time_min']                 # target
+X = prepared_data.drop(columns=['Delivery_Time_min']) 
+y = prepared_data['Delivery_Time_min']                
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 X_num= ['Distance_km', 'Preparation_Time_min']
@@ -183,8 +182,8 @@ pipeline_svr= Pipeline([
 ])
 #5.define the parameter grid
 grid_svr = { 
-    'feature_selection__k': [5, 8],          # fewer options
-    'svr__kernel': ['linear', 'rbf'],        # remove 'poly' if slow
+    'feature_selection__k': [5, 8],          
+    'svr__kernel': ['linear', 'rbf'],   
     'svr__C': [1, 10],
     'svr__gamma': ['scale', 'auto'],
     'svr__epsilon': [0.1]
